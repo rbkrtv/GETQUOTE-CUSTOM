@@ -231,6 +231,14 @@ function App() {
         setAgentConfig(newConfig);
         // Also update the global variable if needed for legacy compatibility during runtime
         (window as any).AGENT_WHATSAPP = newConfig.whatsapp;
+
+        // Apply colors immediately
+        if (newConfig.primaryColor) {
+            document.documentElement.style.setProperty('--primary-color', newConfig.primaryColor);
+        }
+        if (newConfig.secondaryColor) {
+            document.documentElement.style.setProperty('--secondary-color', newConfig.secondaryColor);
+        }
     };
 
     return (

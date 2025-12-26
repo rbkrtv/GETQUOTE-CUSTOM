@@ -53,7 +53,7 @@ const AgentProfile: React.FC<AgentProfileProps> = ({ config, isLoading, onUpdate
 
     if (isEditing && editConfig) {
         return (
-            <section className="w-[92%] max-w-xl mx-auto bg-white rounded-xl p-6 sm:p-8 shadow-2xl mt-8 border-2 border-[var(--primary-color)] relative animate-fade-in">
+            <section className="w-[92%] max-w-xl mx-auto bg-white rounded-xl p-6 sm:p-8 shadow-2xl mt-8 border-2 border-[var(--primary-color)] relative animate-fade-in text-left">
                 <div className="flex justify-between items-center mb-6 border-b pb-4">
                     <h3 className="text-xl font-bold text-gray-800">Edit Profile</h3>
                     <div className="flex gap-2">
@@ -66,7 +66,7 @@ const AgentProfile: React.FC<AgentProfileProps> = ({ config, isLoading, onUpdate
                     </div>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-4 max-h-[70vh] overflow-y-auto pr-2">
                     <div>
                         <label className="block text-sm font-semibold text-gray-700 mb-1">Agency Name</label>
                         <input 
@@ -118,39 +118,94 @@ const AgentProfile: React.FC<AgentProfileProps> = ({ config, isLoading, onUpdate
                         />
                     </div>
 
-                    <div className="pt-2 border-t mt-4">
+                    <div className="pt-2 border-t mt-2">
                         <label className="block text-sm font-bold text-gray-700 mb-3">Social Media Links</label>
                         <div className="space-y-3">
-                             <div>
-                                <label className="text-xs text-gray-500">Facebook</label>
+                             <div className="flex items-center gap-2">
+                                <label className="w-20 text-xs text-gray-500">Facebook</label>
                                 <input 
                                     type="text" 
-                                    className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-[var(--primary-color)] outline-none text-sm"
+                                    className="flex-1 px-3 py-2 border rounded-md focus:ring-2 focus:ring-[var(--primary-color)] outline-none text-sm"
                                     value={editConfig.facebook || ''}
                                     placeholder="https://facebook.com/..."
                                     onChange={(e) => handleChange('facebook', e.target.value)}
                                 />
                             </div>
-                            <div>
-                                <label className="text-xs text-gray-500">Instagram</label>
+                            <div className="flex items-center gap-2">
+                                <label className="w-20 text-xs text-gray-500">Instagram</label>
                                 <input 
                                     type="text" 
-                                    className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-[var(--primary-color)] outline-none text-sm"
+                                    className="flex-1 px-3 py-2 border rounded-md focus:ring-2 focus:ring-[var(--primary-color)] outline-none text-sm"
                                     value={editConfig.instagram || ''}
                                     placeholder="https://instagram.com/..."
                                     onChange={(e) => handleChange('instagram', e.target.value)}
                                 />
                             </div>
-                             <div>
-                                <label className="text-xs text-gray-500">TikTok</label>
+                             <div className="flex items-center gap-2">
+                                <label className="w-20 text-xs text-gray-500">TikTok</label>
                                 <input 
                                     type="text" 
-                                    className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-[var(--primary-color)] outline-none text-sm"
+                                    className="flex-1 px-3 py-2 border rounded-md focus:ring-2 focus:ring-[var(--primary-color)] outline-none text-sm"
                                     value={editConfig.tiktok || ''}
                                     placeholder="https://tiktok.com/..."
                                     onChange={(e) => handleChange('tiktok', e.target.value)}
                                 />
                             </div>
+                        </div>
+                    </div>
+
+                    <div className="pt-4 border-t mt-4">
+                         <h4 className="text-sm font-bold text-gray-700 mb-3 uppercase tracking-wider">Appearance & System</h4>
+                         
+                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label className="text-xs text-gray-500 mb-1 block">Primary Color</label>
+                                <div className="flex gap-2">
+                                    <input 
+                                        type="color" 
+                                        value={editConfig.primaryColor || '#1e3a8a'}
+                                        onChange={(e) => handleChange('primaryColor', e.target.value)}
+                                        className="h-10 w-12 p-1 border rounded cursor-pointer"
+                                    />
+                                    <input 
+                                        type="text" 
+                                        value={editConfig.primaryColor || ''}
+                                        onChange={(e) => handleChange('primaryColor', e.target.value)}
+                                        className="flex-1 px-3 py-2 border rounded-md text-sm uppercase font-mono"
+                                        placeholder="#1E3A8A"
+                                    />
+                                </div>
+                            </div>
+                             <div>
+                                <label className="text-xs text-gray-500 mb-1 block">Secondary Color</label>
+                                <div className="flex gap-2">
+                                    <input 
+                                        type="color" 
+                                        value={editConfig.secondaryColor || '#3b82f6'}
+                                        onChange={(e) => handleChange('secondaryColor', e.target.value)}
+                                        className="h-10 w-12 p-1 border rounded cursor-pointer"
+                                    />
+                                    <input 
+                                        type="text" 
+                                        value={editConfig.secondaryColor || ''}
+                                        onChange={(e) => handleChange('secondaryColor', e.target.value)}
+                                        className="flex-1 px-3 py-2 border rounded-md text-sm uppercase font-mono"
+                                        placeholder="#3B82F6"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label className="text-xs text-gray-500 mb-1 block">Leads Database URL (Web App URL)</label>
+                            <input 
+                                type="text" 
+                                className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-[var(--primary-color)] outline-none text-xs font-mono text-gray-600"
+                                value={editConfig.leadsUrl || ''}
+                                onChange={(e) => handleChange('leadsUrl', e.target.value)}
+                                placeholder="https://script.google.com/macros/s/..."
+                            />
+                            <p className="text-[10px] text-gray-400 mt-1">Google Apps Script Web App URL for lead submission.</p>
                         </div>
                     </div>
                 </div>
