@@ -6,9 +6,10 @@ interface AgentProfileProps {
     config: AgentConfig | null;
     isLoading: boolean;
     onUpdate: (config: AgentConfig) => void;
+    onOpenLeads?: () => void;
 }
 
-const AgentProfile: React.FC<AgentProfileProps> = ({ config, isLoading, onUpdate }) => {
+const AgentProfile: React.FC<AgentProfileProps> = ({ config, isLoading, onUpdate, onOpenLeads }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editConfig, setEditConfig] = useState<AgentConfig | null>(null);
 
@@ -155,7 +156,7 @@ const AgentProfile: React.FC<AgentProfileProps> = ({ config, isLoading, onUpdate
                     </div>
 
                     <div className="pt-4 border-t mt-4">
-                         <h4 className="text-sm font-bold text-gray-700 mb-3 uppercase tracking-wider">Appearance & System</h4>
+                         <h4 className="text-sm font-bold text-gray-700 mb-3 uppercase tracking-wider">Appearance</h4>
                          
                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                             <div>
@@ -195,17 +196,22 @@ const AgentProfile: React.FC<AgentProfileProps> = ({ config, isLoading, onUpdate
                                 </div>
                             </div>
                         </div>
+                    </div>
 
+                    <div className="pt-4 border-t mt-4">
+                        <h4 className="text-sm font-bold text-gray-700 mb-3 uppercase tracking-wider">System Configuration</h4>
                         <div>
-                            <label className="text-xs text-gray-500 mb-1 block">Leads Database URL (Web App URL)</label>
+                            <label className="block text-sm font-semibold text-gray-700 mb-1">Leads Database URL</label>
                             <input 
                                 type="text" 
-                                className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-[var(--primary-color)] outline-none text-xs font-mono text-gray-600"
+                                className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-[var(--primary-color)] outline-none text-xs font-mono"
                                 value={editConfig.leadsUrl || ''}
                                 onChange={(e) => handleChange('leadsUrl', e.target.value)}
                                 placeholder="https://script.google.com/macros/s/..."
                             />
-                            <p className="text-[10px] text-gray-400 mt-1">Google Apps Script Web App URL for lead submission.</p>
+                            <p className="text-[10px] text-gray-500 mt-1">
+                                Enter your Google Apps Script Web App URL here to collect leads.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -217,13 +223,26 @@ const AgentProfile: React.FC<AgentProfileProps> = ({ config, isLoading, onUpdate
         <section className="w-[92%] max-w-xl mx-auto bg-white rounded-xl p-8 sm:p-10 shadow-xl mt-8 text-center border border-gray-100 transition-all duration-300 hover:shadow-2xl relative group">
             
             {/* Edit Button */}
-            <button 
-                onClick={() => setIsEditing(true)}
-                className="absolute top-4 right-4 p-2 text-gray-400 hover:text-[var(--primary-color)] hover:bg-blue-50 rounded-full transition-all opacity-0 group-hover:opacity-100"
-                title="Edit Profile"
-            >
-                {ICONS.pencil}
-            </button>
+            <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                 {/* Leads Button */}
+                 {onOpenLeads && (
+                     <button 
+                        onClick={onOpenLeads}
+                        className="p-2 text-gray-400 hover:text-[var(--primary-color)] hover:bg-blue-50 rounded-full transition-all"
+                        title="View Leads Database"
+                    >
+                        {ICONS.database}
+                    </button>
+                 )}
+                 {/* Edit Profile Button */}
+                <button 
+                    onClick={() => setIsEditing(true)}
+                    className="p-2 text-gray-400 hover:text-[var(--primary-color)] hover:bg-blue-50 rounded-full transition-all"
+                    title="Edit Profile"
+                >
+                    {ICONS.pencil}
+                </button>
+            </div>
 
             <h3 className="font-poppins text-2xl sm:text-3xl font-semibold text-gray-800 mb-6">
                 {config.agency || "Takaful Agency"}

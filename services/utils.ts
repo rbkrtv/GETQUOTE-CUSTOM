@@ -82,3 +82,24 @@ export const formatDob = (value: string): string => {
     }
     return input;
 };
+
+export const isValidPhone = (phone: string): boolean => {
+    // Remove spaces, dashes, plus signs
+    const clean = phone.replace(/[\s\-\+]/g, '');
+    
+    // Malaysian mobile pattern:
+    // Starts with 601 or 01
+    // followed by 7 to 9 digits.
+    // Total length check:
+    // 01X-XXXXXXX (10 digits)
+    // 01X-XXXXXXXX (11 digits)
+    // 601X-XXXXXXX (12 digits)
+    // 601X-XXXXXXXX (13 digits)
+    
+    // Regex:
+    // ^(601|01) - Must start with 601 or 01
+    // \d{7,9}$ - Followed by 7 to 9 digits
+    const regex = /^(601|01)\d{7,9}$/;
+    
+    return regex.test(clean);
+};

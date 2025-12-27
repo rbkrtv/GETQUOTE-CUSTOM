@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { AgentConfig, PricingData, FormData, QuotationResult, PlanBenefits } from './types';
 import { fetchAgentConfig, fetchPricingData, fetchBenefits, submitLead } from './services/api';
-import { getAgentIdFromPath, calculateNextBirthdayAge, getHibahPremium } from './services/utils';
+import { getAgentIdFromPath, calculateNextBirthdayAge, getHibahPremium, isValidPhone } from './services/utils';
 import AgentProfile from './components/AgentProfile';
 import QuotationForm from './components/QuotationForm';
 import MedicalResult from './components/MedicalResult';
 import HibahResult from './components/HibahResult';
+import LeadsModal from './components/LeadsModal';
 
 function App() {
     // Data State
@@ -18,6 +19,7 @@ function App() {
     const [isCalculating, setIsCalculating] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [formError, setFormError] = useState<string | null>(null);
+    const [showLeads, setShowLeads] = useState(false);
 
     // Form State
     const [formData, setFormData] = useState<FormData>({
@@ -86,6 +88,12 @@ function App() {
         // Validation
         if (!formData.planType || !formData.name || !formData.dob || !formData.phone || !formData.gender || !formData.smoker || !formData.occupation) {
             setFormError("Sila lengkapkan semua butiran di dalam borang.");
+            return;
+        }
+
+        // Phone Validation
+        if (!isValidPhone(formData.phone)) {
+            setFormError("Nombor telefon tidak sah. Sila masukkan format Malaysia yang betul (contoh: 0123456789 atau +6012...).");
             return;
         }
 
@@ -262,6 +270,7 @@ function App() {
                         config={agentConfig} 
                         isLoading={isLoadingAgent} 
                         onUpdate={handleConfigUpdate}
+                        onOpenLeads={() => setShowLeads(true)}
                     />
                     
                     <QuotationForm 
@@ -280,6 +289,14 @@ function App() {
                             <HibahResult formData={formData} result={result} benefits={benefits} />
                         )}
                     </div>
+
+                    {showLeads && agentConfig && (
+                        <LeadsModal 
+                            leadsUrl={agentConfig.leadsUrl} 
+                            onClose={() => setShowLeads(false)}
+                            onUpdateUrl={(newUrl) => handleConfigUpdate({ ...agentConfig, leadsUrl: newUrl })}
+                        />
+                    )}
                 </>
             )}
         </div>

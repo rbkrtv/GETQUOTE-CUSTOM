@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FormData } from '../types';
 import { ICONS } from '../constants';
-import { formatDob } from '../services/utils';
+import { formatDob, isValidPhone } from '../services/utils';
 
 interface QuotationFormProps {
     formData: FormData;
@@ -12,14 +12,27 @@ interface QuotationFormProps {
 }
 
 const QuotationForm: React.FC<QuotationFormProps> = ({ formData, onChange, onSubmit, isLoading, error }) => {
-    
+    const [phoneError, setPhoneError] = useState<boolean>(false);
+
     const handleChange = (field: keyof FormData, value: string) => {
         onChange({ ...formData, [field]: value });
+        if (field === 'phone' && phoneError) {
+             // Reset error as they type, we check again on blur
+             if (isValidPhone(value)) setPhoneError(false);
+        }
     };
 
     const handleDobChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const val = formatDob(e.target.value);
         handleChange('dob', val);
+    };
+
+    const handlePhoneBlur = () => {
+        if (formData.phone && !isValidPhone(formData.phone)) {
+            setPhoneError(true);
+        } else {
+            setPhoneError(false);
+        }
     };
 
     const IconOption = ({ 
@@ -109,12 +122,22 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ formData, onChange, onSub
                         <label className="block text-sm font-bold text-gray-700 mb-2">Nombor Telefon</label>
                         <input 
                             type="tel" 
-                            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition-all"
-                            placeholder="Contoh: 60123456789"
+                            className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 transition-all ${
+                                phoneError 
+                                ? 'border-red-500 focus:ring-red-500 bg-red-50' 
+                                : 'border-gray-300 focus:ring-[var(--primary-color)] focus:border-transparent'
+                            }`}
+                            placeholder="Contoh: 0123456789"
                             required
                             value={formData.phone}
                             onChange={(e) => handleChange('phone', e.target.value)}
+                            onBlur={handlePhoneBlur}
                         />
+                        {phoneError && (
+                            <p className="text-red-500 text-xs mt-1 animate-fade-in">
+                                Sila masukkan nombor telefon yang sah (Contoh: 012... atau 601...)
+                            </p>
+                        )}
                     </div>
 
                     {/* Occupation */}

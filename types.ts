@@ -58,6 +58,16 @@ export interface FormData {
     smoker: 'ya' | 'tidak' | '';
 }
 
+export interface Lead {
+    timestamp?: string;
+    date?: string;
+    name: string;
+    phone: string;
+    planType: string;
+    status?: string;
+    [key: string]: any;
+}
+
 export interface QuotationResult {
     nextBirthdayAge: number;
     medical?: {
