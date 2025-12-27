@@ -61,7 +61,7 @@ const LeadsModal: React.FC<LeadsModalProps> = ({ leadsUrl, onClose, onUpdateUrl 
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-60 backdrop-blur-sm animate-fade-in">
-            <div className="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden">
+            <div className="bg-white rounded-xl shadow-2xl w-full max-w-6xl max-h-[90vh] flex flex-col overflow-hidden">
                 {/* Header */}
                 <div className="flex justify-between items-center p-6 border-b bg-gray-50">
                     <div className="flex items-center gap-3">
@@ -136,20 +136,29 @@ const LeadsModal: React.FC<LeadsModalProps> = ({ leadsUrl, onClose, onUpdateUrl 
                         <div className="w-full overflow-x-auto">
                             <table className="w-full text-left border-collapse">
                                 <thead>
-                                    <tr className="bg-white text-gray-600 text-sm uppercase tracking-wider sticky top-0 border-b-2 border-gray-100 shadow-sm">
-                                        <th className="p-4 font-semibold">Tarikh</th>
-                                        <th className="p-4 font-semibold">Nama</th>
-                                        <th className="p-4 font-semibold">No. Telefon</th>
-                                        <th className="p-4 font-semibold">Plan</th>
-                                        <th className="p-4 font-semibold">Info Tambahan</th>
-                                        <th className="p-4 font-semibold">Tindakan</th>
+                                    <tr className="bg-white text-gray-600 text-xs uppercase tracking-wider sticky top-0 border-b-2 border-gray-100 shadow-sm">
+                                        <th className="p-4 font-semibold whitespace-nowrap">TIME</th>
+                                        <th className="p-4 font-semibold whitespace-nowrap">PLAN TYPE</th>
+                                        <th className="p-4 font-semibold whitespace-nowrap">NAMA</th>
+                                        <th className="p-4 font-semibold whitespace-nowrap">NO TELEFON</th>
+                                        <th className="p-4 font-semibold whitespace-nowrap">TARIKH LAHIR</th>
+                                        <th className="p-4 font-semibold whitespace-nowrap">JANTINA</th>
+                                        <th className="p-4 font-semibold whitespace-nowrap">MEROKOK</th>
+                                        <th className="p-4 font-semibold whitespace-nowrap">PEKERJAAN</th>
+                                        <th className="p-4 font-semibold whitespace-nowrap text-center">ACTION</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-100">
                                     {leads.map((lead, idx) => {
                                         // Safety check for phone to avoid .replace crash if number
                                         const phoneStr = String(lead.phone || '');
+                                        const cleanPhone = phoneStr.replace(/\D/g, '');
+                                        const message = `Salam Hai ${lead.name}, ada survey plan quotation dari Great Eastern Takaful kan. Ada apa-apa saya boleh bantu?`;
+                                        const whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`;
                                         
+                                        // Clean DOB: Remove time component if present
+                                        const cleanDob = lead.dob ? String(lead.dob).split('T')[0] : '-';
+
                                         return (
                                         <tr key={idx} className="hover:bg-blue-50 transition-colors text-sm">
                                             <td className="p-4 text-gray-500 whitespace-nowrap">
@@ -159,9 +168,7 @@ const LeadsModal: React.FC<LeadsModalProps> = ({ leadsUrl, onClose, onUpdateUrl 
                                                      {lead.timestamp ? new Date(lead.timestamp).toLocaleTimeString('ms-MY', {hour: '2-digit', minute:'2-digit'}) : ''}
                                                 </div>
                                             </td>
-                                            <td className="p-4 font-medium text-gray-900">{lead.name}</td>
-                                            <td className="p-4 text-gray-600 font-mono">{phoneStr}</td>
-                                            <td className="p-4">
+                                            <td className="p-4 whitespace-nowrap">
                                                 <span className={`px-2 py-1 rounded text-xs font-bold ${
                                                     lead.planType === 'medical' ? 'bg-blue-100 text-blue-700' :
                                                     lead.planType === 'hibah' ? 'bg-purple-100 text-purple-700' : 
@@ -170,15 +177,15 @@ const LeadsModal: React.FC<LeadsModalProps> = ({ leadsUrl, onClose, onUpdateUrl 
                                                     {(lead.planType || 'Unknown').toUpperCase()}
                                                 </span>
                                             </td>
-                                             <td className="p-4 text-gray-500">
-                                                <div className="text-xs">
-                                                    <div>{lead.occupation}</div>
-                                                    <div>{lead.age || lead.dob}</div>
-                                                </div>
-                                            </td>
-                                            <td className="p-4">
+                                            <td className="p-4 font-medium text-gray-900 whitespace-nowrap">{lead.name}</td>
+                                            <td className="p-4 text-gray-600 font-mono whitespace-nowrap">{phoneStr}</td>
+                                            <td className="p-4 text-gray-600 whitespace-nowrap">{cleanDob}</td>
+                                            <td className="p-4 text-gray-600 whitespace-nowrap capitalize">{lead.gender || '-'}</td>
+                                            <td className="p-4 text-gray-600 whitespace-nowrap capitalize">{lead.smoker || '-'}</td>
+                                            <td className="p-4 text-gray-600 whitespace-nowrap">{lead.occupation || '-'}</td>
+                                            <td className="p-4 text-center">
                                                 <a 
-                                                    href={`https://wa.me/${phoneStr.replace(/\D/g,'')}`} 
+                                                    href={whatsappUrl} 
                                                     target="_blank" 
                                                     rel="noreferrer"
                                                     className="inline-flex items-center justify-center w-8 h-8 bg-green-100 text-green-600 rounded-full hover:bg-green-200"
@@ -193,6 +200,16 @@ const LeadsModal: React.FC<LeadsModalProps> = ({ leadsUrl, onClose, onUpdateUrl 
                             </table>
                         </div>
                     )}
+                </div>
+
+                 {/* Footer */}
+                <div className="p-4 border-t bg-gray-50 flex justify-end">
+                    <button 
+                        onClick={onClose}
+                        className="px-6 py-2 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700 transition-colors shadow-sm"
+                    >
+                        Tutup
+                    </button>
                 </div>
             </div>
         </div>

@@ -67,12 +67,12 @@ const AgentProfile: React.FC<AgentProfileProps> = ({ config, isLoading, onUpdate
                     </div>
                 </div>
 
-                <div className="space-y-4 max-h-[70vh] overflow-y-auto pr-2">
+                <div className="space-y-4 max-h-[70vh] overflow-y-auto pr-2 custom-scrollbar">
                     <div>
                         <label className="block text-sm font-semibold text-gray-700 mb-1">Agency Name</label>
                         <input 
                             type="text" 
-                            className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-[var(--primary-color)] outline-none"
+                            className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-[var(--primary-color)] outline-none bg-white text-gray-900"
                             value={editConfig.agency}
                             onChange={(e) => handleChange('agency', e.target.value)}
                         />
@@ -83,7 +83,7 @@ const AgentProfile: React.FC<AgentProfileProps> = ({ config, isLoading, onUpdate
                              <label className="block text-sm font-semibold text-gray-700 mb-1">Agent Name</label>
                              <input 
                                 type="text" 
-                                className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-[var(--primary-color)] outline-none"
+                                className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-[var(--primary-color)] outline-none bg-white text-gray-900"
                                 value={editConfig.name}
                                 onChange={(e) => handleChange('name', e.target.value)}
                             />
@@ -92,7 +92,7 @@ const AgentProfile: React.FC<AgentProfileProps> = ({ config, isLoading, onUpdate
                              <label className="block text-sm font-semibold text-gray-700 mb-1">Company (e.g. GETB)</label>
                              <input 
                                 type="text" 
-                                className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-[var(--primary-color)] outline-none"
+                                className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-[var(--primary-color)] outline-none bg-white text-gray-900"
                                 value={editConfig.company}
                                 onChange={(e) => handleChange('company', e.target.value)}
                             />
@@ -103,7 +103,7 @@ const AgentProfile: React.FC<AgentProfileProps> = ({ config, isLoading, onUpdate
                         <label className="block text-sm font-semibold text-gray-700 mb-1">Photo URL</label>
                         <input 
                             type="text" 
-                            className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-[var(--primary-color)] outline-none text-sm"
+                            className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-[var(--primary-color)] outline-none text-sm bg-white text-gray-900"
                             value={editConfig.photo}
                             onChange={(e) => handleChange('photo', e.target.value)}
                         />
@@ -113,7 +113,7 @@ const AgentProfile: React.FC<AgentProfileProps> = ({ config, isLoading, onUpdate
                         <label className="block text-sm font-semibold text-gray-700 mb-1">WhatsApp Number</label>
                         <input 
                             type="text" 
-                            className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-[var(--primary-color)] outline-none"
+                            className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-[var(--primary-color)] outline-none bg-white text-gray-900"
                             value={editConfig.whatsapp}
                             onChange={(e) => handleChange('whatsapp', e.target.value)}
                         />
@@ -126,7 +126,7 @@ const AgentProfile: React.FC<AgentProfileProps> = ({ config, isLoading, onUpdate
                                 <label className="w-20 text-xs text-gray-500">Facebook</label>
                                 <input 
                                     type="text" 
-                                    className="flex-1 px-3 py-2 border rounded-md focus:ring-2 focus:ring-[var(--primary-color)] outline-none text-sm"
+                                    className="flex-1 px-3 py-2 border rounded-md focus:ring-2 focus:ring-[var(--primary-color)] outline-none text-sm bg-white text-gray-900"
                                     value={editConfig.facebook || ''}
                                     placeholder="https://facebook.com/..."
                                     onChange={(e) => handleChange('facebook', e.target.value)}
@@ -136,7 +136,7 @@ const AgentProfile: React.FC<AgentProfileProps> = ({ config, isLoading, onUpdate
                                 <label className="w-20 text-xs text-gray-500">Instagram</label>
                                 <input 
                                     type="text" 
-                                    className="flex-1 px-3 py-2 border rounded-md focus:ring-2 focus:ring-[var(--primary-color)] outline-none text-sm"
+                                    className="flex-1 px-3 py-2 border rounded-md focus:ring-2 focus:ring-[var(--primary-color)] outline-none text-sm bg-white text-gray-900"
                                     value={editConfig.instagram || ''}
                                     placeholder="https://instagram.com/..."
                                     onChange={(e) => handleChange('instagram', e.target.value)}
@@ -146,7 +146,7 @@ const AgentProfile: React.FC<AgentProfileProps> = ({ config, isLoading, onUpdate
                                 <label className="w-20 text-xs text-gray-500">TikTok</label>
                                 <input 
                                     type="text" 
-                                    className="flex-1 px-3 py-2 border rounded-md focus:ring-2 focus:ring-[var(--primary-color)] outline-none text-sm"
+                                    className="flex-1 px-3 py-2 border rounded-md focus:ring-2 focus:ring-[var(--primary-color)] outline-none text-sm bg-white text-gray-900"
                                     value={editConfig.tiktok || ''}
                                     placeholder="https://tiktok.com/..."
                                     onChange={(e) => handleChange('tiktok', e.target.value)}
@@ -158,7 +158,7 @@ const AgentProfile: React.FC<AgentProfileProps> = ({ config, isLoading, onUpdate
                     <div className="pt-4 border-t mt-4">
                          <h4 className="text-sm font-bold text-gray-700 mb-3 uppercase tracking-wider">Appearance</h4>
                          
-                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                         <div className="mb-4">
                             <div>
                                 <label className="text-xs text-gray-500 mb-1 block">Primary Color</label>
                                 <div className="flex gap-2">
@@ -166,32 +166,14 @@ const AgentProfile: React.FC<AgentProfileProps> = ({ config, isLoading, onUpdate
                                         type="color" 
                                         value={editConfig.primaryColor || '#1e3a8a'}
                                         onChange={(e) => handleChange('primaryColor', e.target.value)}
-                                        className="h-10 w-12 p-1 border rounded cursor-pointer"
+                                        className="h-10 w-12 p-1 border rounded cursor-pointer bg-white"
                                     />
                                     <input 
                                         type="text" 
                                         value={editConfig.primaryColor || ''}
                                         onChange={(e) => handleChange('primaryColor', e.target.value)}
-                                        className="flex-1 px-3 py-2 border rounded-md text-sm uppercase font-mono"
+                                        className="flex-1 px-3 py-2 border rounded-md text-sm uppercase font-mono bg-white text-gray-900"
                                         placeholder="#1E3A8A"
-                                    />
-                                </div>
-                            </div>
-                             <div>
-                                <label className="text-xs text-gray-500 mb-1 block">Secondary Color</label>
-                                <div className="flex gap-2">
-                                    <input 
-                                        type="color" 
-                                        value={editConfig.secondaryColor || '#3b82f6'}
-                                        onChange={(e) => handleChange('secondaryColor', e.target.value)}
-                                        className="h-10 w-12 p-1 border rounded cursor-pointer"
-                                    />
-                                    <input 
-                                        type="text" 
-                                        value={editConfig.secondaryColor || ''}
-                                        onChange={(e) => handleChange('secondaryColor', e.target.value)}
-                                        className="flex-1 px-3 py-2 border rounded-md text-sm uppercase font-mono"
-                                        placeholder="#3B82F6"
                                     />
                                 </div>
                             </div>
@@ -204,7 +186,7 @@ const AgentProfile: React.FC<AgentProfileProps> = ({ config, isLoading, onUpdate
                             <label className="block text-sm font-semibold text-gray-700 mb-1">Leads Database URL</label>
                             <input 
                                 type="text" 
-                                className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-[var(--primary-color)] outline-none text-xs font-mono"
+                                className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-[var(--primary-color)] outline-none text-xs font-mono bg-white text-gray-900"
                                 value={editConfig.leadsUrl || ''}
                                 onChange={(e) => handleChange('leadsUrl', e.target.value)}
                                 placeholder="https://script.google.com/macros/s/..."

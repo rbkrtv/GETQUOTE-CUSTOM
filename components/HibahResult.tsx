@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FormData, QuotationResult, PlanBenefits } from '../types';
+import { FormData, QuotationResult, PlanBenefits, BenefitItem } from '../types';
 import PlanCard from './PlanCard';
 
 interface HibahResultProps {
@@ -37,16 +37,41 @@ const HibahResult: React.FC<HibahResultProps> = ({ formData, result, benefits })
         return result.hibah?.chinta || null;
     };
 
+    // Helper to map API icons/text to our local SVG keys
+    const mapToSvgIcons = (items: BenefitItem[]): BenefitItem[] => {
+        if (!items) return [];
+        return items.map(item => {
+            const lowerText = (item.text + ' ' + (item.value || '')).toLowerCase();
+            let iconKey = item.icon;
+
+            if (lowerText.includes('kematian') || lowerText.includes('lumpuh') || lowerText.includes('death')) iconKey = 'hibah';
+            else if (lowerText.includes('khairat') || lowerText.includes('funeral')) iconKey = 'khairat';
+            else if (lowerText.includes('tunai') || lowerText.includes('cash') || lowerText.includes('value') || lowerText.includes('saving')) iconKey = 'saving';
+            else if (lowerText.includes('waiver')) iconKey = 'waiver';
+            else if (lowerText.includes('kritikal') || lowerText.includes('critical') || lowerText.includes('cancer')) iconKey = 'kanser';
+            else if (lowerText.includes('coverage') || lowerText.includes('tempoh') || lowerText.includes('sehingga') || lowerText.includes('expiry')) iconKey = 'coverage';
+            else if (lowerText.includes('harga') || lowerText.includes('price') || lowerText.includes('fee')) iconKey = 'tag';
+            else if (lowerText.includes('hospital') || lowerText.includes('bilik')) iconKey = 'bilik';
+            else if (lowerText.includes('limit') || lowerText.includes('had')) iconKey = 'tahunan';
+
+            return { ...item, icon: iconKey };
+        });
+    };
+
     const getNovaBenefits = () => {
-        if (novaAddons.ci) return benefits.novaCI || benefits.nova || [];
-        if (novaAddons.waiver) return benefits.novaWaiver || benefits.nova || [];
-        return benefits.nova || [];
+        let items: BenefitItem[] = [];
+        if (novaAddons.ci) items = benefits.novaCI || benefits.nova || [];
+        else if (novaAddons.waiver) items = benefits.novaWaiver || benefits.nova || [];
+        else items = benefits.nova || [];
+        return mapToSvgIcons(items);
     };
 
     const getChintaBenefits = () => {
-        if (chintaAddons.ci) return benefits.chintaCI || benefits.chinta || [];
-        if (chintaAddons.waiver) return benefits.chintaWaiver || benefits.chinta || [];
-        return benefits.chinta || [];
+        let items: BenefitItem[] = [];
+        if (chintaAddons.ci) items = benefits.chintaCI || benefits.chinta || [];
+        else if (chintaAddons.waiver) items = benefits.chintaWaiver || benefits.chinta || [];
+        else items = benefits.chinta || [];
+        return mapToSvgIcons(items);
     };
 
     const sendWhatsapp = (plan: string, price: number | null) => {
@@ -174,7 +199,7 @@ const HibahResult: React.FC<HibahResultProps> = ({ formData, result, benefits })
                 <PlanCard 
                     title="Hibah Inspirasi"
                     monthlyPrice={result.hibah?.inspirasi || null}
-                    benefits={benefits.inspirasi || []}
+                    benefits={mapToSvgIcons(benefits.inspirasi || [])}
                     onSelect={() => sendWhatsapp('Hibah Inspirasi', result.hibah?.inspirasi || null)}
                 />
 

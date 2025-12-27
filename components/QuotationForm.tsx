@@ -94,7 +94,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ formData, onChange, onSub
                         <label className="block text-sm font-bold text-gray-700 mb-2">Nama Penuh</label>
                         <input 
                             type="text" 
-                            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition-all"
+                            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition-all bg-white text-gray-900"
                             placeholder="Contoh: Ahmad bin Ali"
                             required
                             value={formData.name}
@@ -108,7 +108,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ formData, onChange, onSub
                         <input 
                             type="text"
                             inputMode="numeric"
-                            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition-all"
+                            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition-all bg-white text-gray-900"
                             placeholder="Contoh: 31/01/1990"
                             maxLength={10}
                             required
@@ -124,8 +124,8 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ formData, onChange, onSub
                             type="tel" 
                             className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 transition-all ${
                                 phoneError 
-                                ? 'border-red-500 focus:ring-red-500 bg-red-50' 
-                                : 'border-gray-300 focus:ring-[var(--primary-color)] focus:border-transparent'
+                                ? 'border-red-500 focus:ring-red-500 bg-red-50 text-gray-900' 
+                                : 'border-gray-300 focus:ring-[var(--primary-color)] focus:border-transparent bg-white text-gray-900'
                             }`}
                             placeholder="Contoh: 0123456789"
                             required
@@ -145,7 +145,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ formData, onChange, onSub
                         <label className="block text-sm font-bold text-gray-700 mb-2">Pekerjaan (Class 1/2 sahaja)</label>
                         <input 
                             type="text" 
-                            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition-all"
+                            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition-all bg-white text-gray-900"
                             placeholder="Contoh: Eksekutif Pemasaran"
                             required
                             value={formData.occupation}
@@ -196,7 +196,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ formData, onChange, onSub
                     <button 
                         type="submit" 
                         disabled={isLoading}
-                        className="bg-gradient-to-r from-[var(--secondary-color)] to-[var(--primary-color)] text-white font-bold text-xl py-4 px-16 rounded-full transition-all transform hover:scale-105 active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
+                        className="bg-[var(--primary-color)] text-white font-bold text-xl py-4 px-16 rounded-full transition-all transform hover:scale-105 active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed shadow-lg hover:shadow-xl hover:opacity-90"
                     >
                         {isLoading ? (
                             <span className="flex items-center gap-2">
